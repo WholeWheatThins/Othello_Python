@@ -17,8 +17,23 @@ My end goal for this project is for other contributors to design a computer for 
 
 ---
 
-**To install:** `pip install Othello_Python`
+**Installation**:
 
-**PyPi Project Name:** Othello_Python
+Type `pip install Othello_Python` into the command line.
 
-**Dependencies**: There are no dependencies for this project
+**Utilization**:
+
+After following the steps under "Installation," type `Othello_Python` into the command line to begin the game.
+
+---
+
+**Contributions**:
+
+To contribute to this project, follow the following steps...
+
+1. Fork the repository on https://github.com/danieljburns143/Othello_Python
+2. If fixing an issue...
+	* Observe any issues under the "Issues" banner on GitHub
+	* Create a branch for aforementioned issue, fix the issue, and submit a PR
+3. If adding a feature...
+	* Create a branch for feature, implement it, and submit a PR

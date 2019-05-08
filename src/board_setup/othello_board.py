@@ -1,4 +1,4 @@
-# othello_board.py
+# othello_board
 # Daniel Burns
 
 class OthelloBoard():
@@ -7,6 +7,10 @@ class OthelloBoard():
 		self.rowsize = rowsize
 		self.columnsize = columnsize
 		self.board = [['.' for _ in range(columnsize)] for _ in range(rowsize)]
+		self.board[int((len(self.board) / 2) - 1)][int((len(self.board) / 2) - 1)] = 'X'
+		self.board[int(len(self.board) / 2)][int(len(self.board) / 2)] = 'X'
+		self.board[int((len(self.board) / 2) - 1)][int(len(self.board) / 2)] = 'O'
+		self.board[int(len(self.board) / 2)][int((len(self.board) / 2) - 1)] = 'O'
 	
 	def printBoard(self):
 		print(' ', end='')
@@ -25,7 +29,7 @@ class OthelloBoard():
 				if self.board[i][j] == '.': return False
 		return True
 
-	def captureLeft(row, column):
+	def captureLeft(self, row, column):
 		if ((column - 2 >= 0) and \
 			(self.board[row][column - 1] != '.' and \
 			self.board[row][column - 1] != self.board[row][column]) and \
@@ -33,7 +37,7 @@ class OthelloBoard():
 			return True
 		return False
 	
-	def captureRight(row, column):
+	def captureRight(self, row, column):
 		if ((column + 2 < self.columnsize) and \
 			(self.board[row][column + 1] != '.' and \
 			self.board[row][column + 1] != self.board[row][column]) and \
@@ -41,7 +45,7 @@ class OthelloBoard():
 			return True
 		return False
 	
-	def captureUp(row, column):
+	def captureUp(self, row, column):
 		if ((row - 2 >= 0) and \
 			(self.board[row - 1][column] != '.' and \
 			self.board[row - 1][column] != self.board[row][column]) and \
@@ -49,15 +53,15 @@ class OthelloBoard():
 			return True
 		return False
 	
-	def captureDown(row, column):
+	def captureDown(self, row, column):
 		if ((row + 2 < self.rowsize) and \
 			(self.board[row + 1][column] != '.' and \
-			self.board[row + 1][column != self.board[row][column]) and \
+			self.board[row + 1][column] != self.board[row][column]) and \
 			(self.board[row + 2][column] == self.board[row][column])):
 			return True
 		return False
 	
-	def captureUpLeft(row, column):
+	def captureUpLeft(self, row, column):
 		if ((row - 2 >= 0) and (column - 2 >= 0) and \
 			(self.board[row - 1][column - 1] != '.' and \
 			self.board[row - 1][column - 1] != self.board[row][column]) and \
@@ -65,7 +69,7 @@ class OthelloBoard():
 			return True
 		return False
 
-	def captureUpRight(row, column):
+	def captureUpRight(self, row, column):
 		if ((row - 2 >= 0) and (column + 2 < self.columnsize) and \
 			(self.board[row - 1][column + 1] != '.' and \
 			self.board[row - 1][column + 1] != self.board[row][column]) and \
@@ -73,7 +77,7 @@ class OthelloBoard():
 			return True
 		return False
 	
-	def captureDownLeft(row, column):
+	def captureDownLeft(self, row, column):
 		if ((row + 2 < self.rowsize) and (column - 2 >= 0) and \
 			(self.board[row + 1][column - 1] != '.' and \
 			self.board[row + 1][column - 1] != self.board[row][column]) and \
@@ -81,10 +85,10 @@ class OthelloBoard():
 			return True
 		return False
 	
-	def captureDownRight(row, column):
+	def captureDownRight(self, row, column):
 		if ((row + 2 < self.rowsize) and (column + 2 < self.columnsize) and \
 			(self.board[row + 1][column + 1] != '.' and \
 			self.board[row + 1][column + 1] != self.board[row][column]) and \
-			(self.board[row + 2][column + 2] == board[row][column])):
+			(self.board[row + 2][column + 2] == self.board[row][column])):
 			return True
 		return False

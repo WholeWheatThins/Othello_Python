@@ -1,3 +1,0 @@
-# othello.py
-# Daniel Burns
-

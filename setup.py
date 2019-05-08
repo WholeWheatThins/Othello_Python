@@ -8,4 +8,7 @@ setup(name='Othello_Python',
 	author_email='danieljburns143@gmail.com',
 	license='MIT',
 	packages=['Othello_Python'],
-	zip_safe=False)
+	zip_safe=False
+	entry_points={
+		'console_scripts': ['Othello_Python=Othello_Python.othello_execution:main']
+	})

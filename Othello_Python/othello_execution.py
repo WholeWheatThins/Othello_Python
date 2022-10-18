@@ -8,6 +8,8 @@ class OthelloBoard():
 	def __init__(self, rowsize=8, columnsize=8):
 		self.rowsize = rowsize
 		self.columnsize = columnsize
+		self.flankingRow = None
+		self.flankingColumn = None
 		self.board = [['.' for _ in range(columnsize)] for _ in range(rowsize)]
 		self.board[int((len(self.board) / 2) - 1)][int((len(self.board) / 2) - 1)] = 'X'
 		self.board[int(len(self.board) / 2)][int(len(self.board) / 2)] = 'X'
@@ -34,17 +36,23 @@ class OthelloBoard():
 	def captureLeft(self, row, column):
 		if ((column - 2 >= 0) and \
 			(self.board[row][column - 1] != '.' and \
-			self.board[row][column - 1] != self.board[row][column]) and \
-			(self.board[row][column - 2] == self.board[row][column])):
-			return True
+			self.board[row][column - 1] != self.board[row][column])):
+
+			for i in range(column - 2, 0, -1):
+				if self.board[row][i] == self.board[row][column]:
+					self.flankingColumn = i
+					return True
 		return False
 
 	def captureRight(self, row, column):
 		if ((column + 2 < self.columnsize) and \
 			(self.board[row][column + 1] != '.' and \
-			self.board[row][column + 1] != self.board[row][column]) and \
-			(self.board[row][column + 2] == self.board[row][column])):
-			return True
+			self.board[row][column + 1] != self.board[row][column])):
+
+			for i in range(column + 2, self.columnsize-1):
+				if self.board[row][i] == self.board[row][column]:
+					self.flankingColumn = i
+					return True
 		return False
 
 	def captureUp(self, row, column):
@@ -66,9 +74,17 @@ class OthelloBoard():
 	def captureUpLeft(self, row, column):
 		if ((row - 2 >= 0) and (column - 2 >= 0) and \
 			(self.board[row - 1][column - 1] != '.' and \
-			self.board[row - 1][column - 1] != self.board[row][column]) and \
-			(self.board[row - 2][column - 2] == self.board[row][column])):
-			return True
+			self.board[row - 1][column - 1] != self.board[row][column])):
+
+			c = column - 2
+			for r in range(row - 2, 0, -1):
+				if self.board[r][c] == self.board[row][column]:
+					self.flankingRow = r
+					self.flankingColumn = c
+					return True
+				c = c - 1
+				if c == 0:
+					return False
 		return False
 
 	def captureUpRight(self, row, column):
@@ -152,11 +168,19 @@ class PlayerVsPlayer():
 
 	def iterateBoard(self):
 		if self.gameBoard.captureLeft(self.row, self.column):
-			if self.turn % 2: self.gameBoard.board[self.row][self.column - 1] = 'X'
-			else: self.gameBoard.board[self.row][self.column - 1] = 'O'
+			if self.turn % 2:
+				for i in range(self.column, self.gameBoard.flankingColumn, -1):
+					self.gameBoard.board[self.row][i] = 'X'
+			else:
+				for i in range(self.column, self.gameBoard.flankingColumn, -1):
+					self.gameBoard.board[self.row][i] = 'O'
 		if self.gameBoard.captureRight(self.row, self.column):
-			if self.turn % 2: self.gameBoard.board[self.row][self.column + 1] = 'X'
-			else: self.gameBoard.board[self.row][self.column + 1] = 'O'
+			if self.turn % 2:
+				for i in range(self.column, self.gameBoard.flankingColumn): 
+					self.gameBoard.board[self.row][i] = 'X'
+			else:
+				for i in range(self.column, self.gameBoard.flankingColumn):
+					self.gameBoard.board[self.row][i] = 'O'
 		if self.gameBoard.captureUp(self.row, self.column):
 			if self.turn % 2: self.gameBoard.board[self.row - 1][self.column] = 'X'
 			else: self.gameBoard.board[self.row - 1][self.column] = 'O'
@@ -164,8 +188,21 @@ class PlayerVsPlayer():
 			if self.turn % 2: self.gameBoard.board[self.row + 1][self.column] = 'X'
 			else: self.gameBoard.board[self.row + 1][self.column] = 'O'
 		if self.gameBoard.captureUpLeft(self.row, self.column):
-			if self.turn % 2: self.gameBoard.board[self.row - 1][self.column - 1] = 'X'
-			else: self.gameBoard.board[self.row - 1][self.column - 1] = 'O'
+			print("test")
+			if self.turn % 2: 
+				c = self.column
+				for r in range(self.row, self.gameBoard.flankingRow, -1):
+					self.gameBoard.board[r][c] = 'X'
+					c = c - 1
+					if c == self.gameBoard.flankingColumn:
+						break
+			else:
+				c = self.column
+				for r in range(self.row, self.gameBoard.flankingRow, -1):
+					self.gameBoard.board[r][c] = 'O'
+					c = c - 1
+					if c == self.gameBoard.flankingColumn:
+						break
 		if self.gameBoard.captureUpRight(self.row, self.column):
 			if self.turn % 2: self.gameBoard.board[self.row - 1][self.column + 1] = 'X'
 			else: self.gameBoard.board[self.row - 1][self.column + 1] = 'O'
